@@ -1,0 +1,92 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <select name="input_6" id="services-dropdown"  class="large gfield_select filled fill_inited" aria-invalid="false">
+
+        <option value="Microneedling Treatments|300">Microneedling Treatments</option>
+        <option value="Microdermabrasion Treatments|150">Microdermabrasion Treatments</option>
+        <option value="Thermocoagulation Treatments|100">Thermocoagulation Treatments</option>
+        <option value="Lashlift &amp; Tint Treatments|80">Lashlift &amp; Tint Treatments</option>
+        <option value="Back treatment Treatments|80">Back treatment Treatments</option>
+        <option value="Chemical peel Treatments|100">Chemical peel Treatments</option>
+        <option value="Zena Algae Peeling Treatments|150">Zena Algae Peeling Treatments</option>
+        <option value="Eyebrows Waxing|20">Eyebrows Waxing</option>
+        <option value="Upper lip Waxing|10">Upper lip Waxing</option>
+        <option value="Chin Waxing|10">Chin Waxing</option>
+        <option value="Neck Waxing|15">Neck Waxing</option>
+        <option value="Shoulders Waxing|15">Shoulders Waxing</option>
+        <option value="Underarms Waxing|20">Underarms Waxing</option>
+        <option value="Arms Waxing|30">Arms Waxing</option>
+        <option value="Half-arms Waxing|20">Half-arms Waxing</option>
+        <option value="Belly line Waxing|10">Belly line Waxing</option>
+        <option value="Chest Waxing|35">Chest Waxing</option>
+        <option value="Half-chest Waxing|20">Half-chest Waxing</option>
+        <option value="Back Waxing|35">Back Waxing</option>
+        <option value="Half-back Waxing|20">Half-back Waxing</option>
+        <option value="Bikini Waxing|20">Bikini Waxing</option>
+        <option value="Bikini line Waxing|20">Bikini line Waxing</option>
+        <option value="Full bikini Waxing|45">Full bikini Waxing</option>
+        <option value="Buttocks Waxing|20">Buttocks Waxing</option>
+        <option value="Between buttocks Waxing|15">Between buttocks Waxing</option>
+        <option value="Full legs Waxing|45">Full legs Waxing</option>
+        <option value="Half-legs Waxing|30">Half-legs Waxing</option>
+        <option value="Botinol Facials|200">Botinol Facials</option>
+        <option value="Sea C spa Facials|160">Sea C spa Facials</option>
+        <option value="Algomask Facials|140">Algomask Facials</option>
+        <option value="Collagen 90+ Facials|180">Collagen 90+ Facials</option>
+        <option value="Oxygenating Facials|140">Oxygenating Facials</option>
+        <option value="Hydrolifting Facials|140">Hydrolifting Facials</option>
+    
+        
+    </select>
+
+    <form id="appointment-form">
+
+        <select id="services-dropdown">
+            <option value="0">Select service</option>
+            <option value="3">Microneedling</option>
+            <option value="4">Microdermabrasion</option>
+            <option value="5">Thermocoagulation</option>
+            <option value="6">Botinol</option>
+            <option value="7">Sea C spa</option>
+            <option value="8">Algomask</option>
+            <option value="9">Eyebrows</option>
+            <option value="10">Upper lip</option>
+            <option value="11">Chin</option>
+        </select>
+        <!-- Other form fields -->
+        <button type="submit">Submit</button>
+    </form>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+    // Get the URL parameters
+    var urlParams = new URLSearchParams(window.location.search);
+    var selectedService = urlParams.get('service');
+
+    if (selectedService) {
+        // Find the dropdown element in the appointment form
+        var serviceDropdown = document.getElementById("services-dropdown");
+
+        // Loop through each option in the dropdown
+        for (var i = 0; i < serviceDropdown.options.length; i++) {
+            // Check if the option's text matches the selected service name
+            if (serviceDropdown.options[i].text === selectedService) {
+                // Set the selected attribute for the matched option
+                serviceDropdown.selectedIndex = i;
+                break; // Exit the loop once found
+            }
+        }
+    }
+});
+
+    </script>
+    
+</body>
+</html>

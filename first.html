@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>First Page</title>
+</head>
+<body>
+
+<!-- Button with default value -->
+<button id="myButton">Default Value</button>
+
+<script>
+// Function to handle button click event
+document.getElementById("myButton").onclick = function() {
+    // Default value for redirection
+    var defaultValue = "Default Value";
+    // Redirect to the second page with the default value in the URL query string
+    window.location.href = "secondPage.html?value=" + encodeURIComponent(defaultValue);
+};
+</script>
+
+</body>
+</html>

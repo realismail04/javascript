@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    #myContent {
+    display: none;
+}
+
+#myDropdown option[value="show"]:checked + #myContent {
+    display: block;
+}
+
+</style>
+<body>
+    <select id="myDropdown">
+        <option value="default">Select:</option>
+        <option value="show">Show Content</option>
+        <option value="hide">Hide Content</option>
+    </select>
+    
+    <div id="myContent">Content to be displayed when "Show Content" is selected.</div>
+    
+</body>
+</html>

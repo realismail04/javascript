@@ -1,0 +1,59 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+
+    <form id="appointment-form">
+        <select id="services-dropdown"><option value="0">Select category</option>
+            <option value="1">Treatments</option>
+            <option value="2">Facials</option>
+            <option value="3">Waxing</option>
+        </select>
+
+        <select id="services-dropdown">
+            <option value="0">Select service</option>
+            <option value="3">Microneedling</option>
+            <option value="4">Microdermabrasion</option>
+            <option value="5">Thermocoagulation</option>
+            <option value="6">Botinol</option>
+            <option value="7">Sea C spa</option>
+            <option value="8">Algomask</option>
+            <option value="9">Eyebrows</option>
+            <option value="10">Upper lip</option>
+            <option value="11">Chin</option>
+        </select>
+        <!-- Other form fields -->
+        <button type="submit">Submit</button>
+    </form>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+    // Get the URL parameters
+    var urlParams = new URLSearchParams(window.location.search);
+    var selectedService = urlParams.get('service');
+
+    if (selectedService) {
+        // Find the dropdown element in the appointment form
+        var serviceDropdown = document.getElementById("services-dropdown");
+
+        // Loop through each option in the dropdown
+        for (var i = 0; i < serviceDropdown.options.length; i++) {
+            // Check if the option's text matches the selected service name
+            if (serviceDropdown.options[i].text === selectedService) {
+                // Set the selected attribute for the matched option
+                serviceDropdown.selectedIndex = i;
+                break; // Exit the loop once found
+            }
+        }
+    }
+});
+
+    </script>
+    
+</body>
+</html>

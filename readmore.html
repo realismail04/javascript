@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+/*collpse and set the height of the toggle text*/
+
+.pa-toggle-text .et_pb_text_inner {
+	max-height: 200px;
+	transition: max-height 0.3s ease-out;
+	overflow: hidden;
+}
+
+
+/*add gradient to the collapsed text*/
+
+.pa-toggle-text .et_pb_text_inner:after {
+	content: "";
+	display: inline-block;
+	position: absolute;
+	pointer-events: none;
+	height: 100px;
+	width: 100%;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-image: linear-gradient(0deg, #fff 10%, transparent);
+}
+
+
+/*style the expand text link*/
+
+.pa-toggle-text .pa-text-expand-button {
+	padding: 0.5em;
+	text-align: center;
+	color: #00d263!important;
+}
+
+
+/*change the curor to a pointed when hovering over the expand text link*/
+
+.pa-toggle-text .pa-text-expand-button span {
+	cursor: pointer;
+}
+
+
+/*define the font family for the toggle icon*/
+
+.pa-toggle-text .pa-text-expand-button .pa-text-toggle-icon {
+	font-family: ETMODULES, "sans-serif";
+}
+
+
+/*set the max height and transition of the expanded toggle*/
+
+.pa-toggle-text .pa-text-toggle-expanded {
+	max-height: 2000px;
+	transition: max-height 0.3s ease-in;
+}
+
+
+/*hide the gradient when the toggle is expanded*/
+
+.pa-toggle-text .pa-text-toggle-expanded.et_pb_text_inner:after {
+	background: none;
+}
+
+/*collpse and set the height of the toggle text*/
+
+.pa-toggle-blurb .et_pb_blurb_description {
+	max-height: 200px;
+	transition: max-height 0.3s ease-out;
+	overflow: hidden;
+}
+
+
+/*add gradient to the collapsed text*/
+
+.pa-toggle-blurb .et_pb_blurb_description:after {
+	content: "";
+	display: inline-block;
+	position: absolute;
+	pointer-events: none;
+	height: 100px;
+	width: 100%;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-image: linear-gradient(0deg, #fff 10%, transparent);
+}
+
+
+/*style the expand text link*/
+
+.pa-toggle-blurb .pa-blurb-expand-button {
+	padding: 0.5em;
+	text-align: center;
+	color: #00d263!important;
+	font-weight: bold;
+}
+
+
+/*change the curor to a pointed when hovering over the expand text link*/
+
+.pa-toggle-blurb .pa-blurb-expand-button span {
+	cursor: pointer;
+}
+
+
+/*define the font family for the toggle icon*/
+
+.pa-toggle-blurb .pa-blurb-expand-button .pa-blurb-toggle-icon {
+	font-family: ETMODULES, "sans-serif";
+}
+
+
+/*set the max height and transition of the expanded toggle*/
+
+.pa-toggle-blurb .pa-blurb-toggle-expanded {
+	max-height: 2000px;
+	transition: max-height 0.3s ease-in;
+}
+
+
+/*hide the gradient when the toggle is expanded*/
+
+.pa-toggle-blurb .pa-blurb-toggle-expanded.et_pb_blurb_description:after {
+	background: none;
+}
+</style>
+</head>
+<body>
+<div  class="pa-toggle-text">
+    <p>Read More Read Less Button erisque enim ligula venenatis dolor. Maecenas nisl est, ultrices nec congue eget, auctor vitae massa. Fusce luctus vestibulum augue ut aliquet. Nunc sagittis dictum nisi, sed ullamcorper ipsum dignissim ac. In at libero sed nunc venenatis imperdiet sed ornare turpis. Donec vitae dui eget tellus gravida venenatis. Integer fringilla congue eros non fermentum. Sed dapibus pulvinar nibh tempor porta.</span></p>
+</p>
+
+</div>
+
+
+<script>
+    jQuery(document).ready(function() {
+        var text_expand_text = "Expand To Read More";
+        var text_collapse_text = "Collapse To Read Less";
+        var text_expand_icon = "3";
+        var text_collapse_icon = "2";
+
+        jQuery(".pa-toggle-text").each(function() {
+            jQuery(this).append('<div class= "pa-text-expand-button"><span class= "pa-text-collapse-button">' + text_expand_text + ' <span class= "pa-text-toggle-icon">' + text_expand_icon + '</span></div>');
+            jQuery(this).find(".pa-text-collapse-button").on("click", function() {
+                jQuery(this).parent().siblings(".et_pb_text_inner").toggleClass("pa-text-toggle-expanded");
+                if (jQuery(this).parent().siblings(".et_pb_text_inner").hasClass("pa-text-toggle-expanded")) {
+                    jQuery(this).html(text_collapse_text + "<span class= 'pa-text-toggle-icon'>" + text_collapse_icon + "</span>");
+                } else {
+                    jQuery(this).html(text_expand_text + "<span class= 'pa-text-toggle-icon'>" + text_expand_icon + "</span>");
+                }
+            })
+        })
+    }) 
+</script>
+
+<script>
+    <script>
+    jQuery(document).ready(function() {
+        var blurb_expand_text = "Expand To Read More";
+        var blurb_collapse_text = "Collapse To Read Less";
+        var blurb_expand_icon = "3";
+        var blurb_collapse_icon = "2";
+
+        jQuery(".pa-toggle-blurb").each(function() {
+            jQuery(this).append('<div class= "pa-blurb-expand-button"><span class= "pa-blurb-collapse-button">' + blurb_expand_text + ' <span class= "pa-blurb-toggle-icon">' + blurb_expand_icon + '</span></div>');
+            jQuery(this).find(".pa-blurb-collapse-button").on("click", function() {
+                jQuery(this).parent().siblings(".et_pb_blurb_content").find(".et_pb_blurb_description").toggleClass("pa-blurb-toggle-expanded");
+                if (jQuery(this).parent().siblings(".et_pb_blurb_content").find(".et_pb_blurb_description").hasClass("pa-blurb-toggle-expanded")) {
+                    jQuery(this).html(blurb_collapse_text + "<span class= 'pa-blurb-toggle-icon'>" + blurb_collapse_icon + "</span>");
+                } else {
+                    jQuery(this).html(blurb_expand_text + "<span class= 'pa-blurb-toggle-icon'>" + blurb_expand_icon + "</span>");
+                }
+            })
+        })
+    }) 
+</script>
+</script>
+</body>
+</html>

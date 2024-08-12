@@ -1,0 +1,338 @@
+//custom JS Code
+
+jQuery(document).ready(function($) {
+    $('.start-purchase-btn').on('click', function() {
+		console.log('test')
+		// Extract Car name
+        var fullTitle = document.querySelector('.car-title-s .elementor-heading-title').textContent.trim();
+		
+        // Extract "Buy Now" price
+        var buyNowPrice = document.querySelector('.stm-listing-single-price-title .price').textContent.trim().replace(/[\s\$,]/g, '');
+
+        
+        // Extract "MSRP"
+//         var msrpPrice = document.querySelector('.single-regular-sale-price .h4').textContent.trim().replace(/[\s]/g, '');
+        
+//         // Extract "Instant Savings"
+//         var instantSavings = document.querySelector('.sale-price-description-single strong').textContent.trim().replace(/[\s\$]/g, '');
+        
+        var image = jQuery(".sent-image .swiper-slide-active img").attr("src");
+        
+        var data = {
+            'action': 'my_action', // AJAX action defined in wp_ajax_ hook
+            'nonce': myAjax.nonce, // Nonce for security
+            'fullTitle': fullTitle,
+            'buyNowPrice': buyNowPrice,
+//             'msrpPrice': msrpPrice,
+//             'instantSavings': instantSavings,
+            'image': image
+        };
+
+        // Make AJAX request
+        $.post(myAjax.ajax_url, data, function(response) {
+            if(response.message="Data stored in session successfully")
+				{
+					window.location.href = "http://localhost/wordpress/purchase-form/";
+				}
+			else{
+				alert("Something Went Wrong");
+			}
+        });
+    });
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function my_enqueue_scripts() {
+    wp_enqueue_script('my-ajax-script', get_template_directory_uri() . '/js/my-ajax-script.js', array('jquery'));
+    
+    // Localize the script with new data
+    $data = array(
+        'ajax_url' => admin_url('admin-ajax.php'),
+        'nonce' => wp_create_nonce('my-ajax-nonce')
+    );
+    wp_localize_script('my-ajax-script', 'myAjax', $data);
+}
+add_action('wp_enqueue_scripts', 'my_enqueue_scripts');
+
+
+function my_ajax_handler() {
+    // Verify nonce for security
+    check_ajax_referer('my-ajax-nonce', 'nonce');
+
+    // Start session (if not already started)
+    if (!session_id()) {
+        session_start();
+    }
+
+    // Access posted data
+    $fullTitle = $_POST['fullTitle'];
+    $buyNowPrice = $_POST['buyNowPrice'];
+    $msrpPrice = $_POST['msrpPrice'];
+    $instantSavings = $_POST['instantSavings'];
+    $image = $_POST['image'];
+
+    // Store data in session
+    $_SESSION['fullTitle'] = $fullTitle;
+    $_SESSION['buyNowPrice'] = $buyNowPrice;
+//     $_SESSION['msrpPrice'] = $msrpPrice;
+//     $_SESSION['instantSavings'] = $instantSavings;
+    $_SESSION['image'] = $image;
+
+    // Return success message (or any other response you want)
+    $response = array(
+        'success' => true,
+        'message' => 'Data stored in session successfully'
+    );
+    echo json_encode($response);
+
+    // Always die() at the end to prevent extra output
+    wp_die();
+}
+
+
+function filter_string_polyfill(string $string): string
+{
+    $str = preg_replace('/\x00|<[^>]*>?/', '', $string);
+    return str_replace(["'", '"'], ['&#39;', '&#34;'], $str);
+}
+
+
+add_action('wp_ajax_my_action', 'my_ajax_handler');
+add_action('wp_ajax_nopriv_my_action', 'my_ajax_handler'); // If you want the AJAX handler to be accessible for non-logged in users
+
+
+
+
+// Initialize session if not already started
+if (!session_id()) {
+    session_start();
+}
+
+// Shortcode to retrieve session value for 'fullTitle'
+function get_full_title_session() {
+    return isset($_SESSION['fullTitle']) ? $_SESSION['fullTitle'] : '';
+}
+add_shortcode('full_title_session', 'get_full_title_session');
+
+// Shortcode to retrieve session value for 'buyNowPrice'
+function get_buy_now_price_session() {
+    return isset($_SESSION['buyNowPrice']) ? $_SESSION['buyNowPrice'] : '';
+}
+add_shortcode('buy_now_price_session', 'get_buy_now_price_session');
+
+// Shortcode to retrieve session value for 'msrpPrice'
+// function get_msrp_price_session() {
+//     return isset($_SESSION['msrpPrice']) ? $_SESSION['msrpPrice'] : '';
+// }
+// add_shortcode('msrp_price_session', 'get_msrp_price_session');
+
+// Shortcode to retrieve session value for 'instantSavings'
+// function get_instant_savings_session() {
+//     return isset($_SESSION['instantSavings']) ? $_SESSION['instantSavings'] : '';
+// }
+// add_shortcode('instant_savings_session', 'get_instant_savings_session');
+
+// Shortcode to retrieve session value for 'image'
+function get_image_session() {
+    return isset($_SESSION['image']) ? $_SESSION['image'] : '';
+}
+add_shortcode('image_session', 'get_image_session');
+
+
+
+function my_get_page_by_title( $title, $type = 'page', $output = OBJECT ) {
+
+    $pages = get_posts( [
+        'title'     => $title,
+        'post_type' => $type,
+    ] );
+
+    return ! empty( $pages[0] ) ? get_post( $pages[0]->ID, $output ) : null;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+// Example usage
+jQuery(document).ready(function($) {
+    $(".main-image img").attr("src","[image_session]");
+    $(".main-image img").attr("srcset","[image_session]");
+    $(".left-image").attr("src","[image_session]");
+    var car_price = [buy_now_price_session];
+    var percentage = 3.5 / 100; // Convert 3.5% to decimal
+    var cash_tax = car_price * percentage;
+    var omvic = 10;
+    var price_omvic = omvic.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+    var lice = 90;
+    var price_lice = lice.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+    var hst = car_price * 0.13;
+    var price_hst = hst.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+    var price_v = car_price.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+    jQuery(".hst").text(price_hst);
+    jQuery(".omvic").text(price_omvic);
+    jQuery(".lice").text(price_lice);
+    jQuery(".v-price").text(price_v);
+    
+    /*Down payment max value*/
+    var down_minus = car_price -2000;
+    $(".down-range").attr("max",down_minus);
+    
+    
+    $('input[type=radio][name=input_23]').change(function() {
+    if (this.value == 'Cash') {
+        car_price = [buy_now_price_session] - cash_tax;
+        jQuery(".cash-tax").text("$"+cash_tax.toFixed(2));
+        jQuery(".cash-div > div").slideDown();
+        
+        var omvic = 10;
+        var price_omvic = omvic.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+        var lice = 90;
+        var price_lice = lice.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+        var hst = car_price * 0.13;
+        var price_hst = hst.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+        var price_v = car_price.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+        jQuery(".hst").text(price_hst);
+        jQuery(".omvic").text(price_omvic);
+        jQuery(".lice").text(price_lice);
+        jQuery(".v-price").text(price_v);
+        
+        jQuery(".vehicle-price-input input").val(price_v);
+        jQuery(".vehicle-name-input input").val("[full_title_session]");
+        jQuery(".hst-input input").val(price_hst);
+        calculation(36,1000,car_price);
+    }
+    else {
+        car_price = [buy_now_price_session];
+        jQuery(".cash-div > div").slideUp();
+        
+        var omvic = 10;
+        var price_omvic = omvic.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+        var lice = 90;
+        var price_lice = lice.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+        var hst = car_price * 0.13;
+        var price_hst = hst.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+        var price_v = car_price.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+        jQuery(".hst").text(price_hst);
+        jQuery(".omvic").text(price_omvic);
+        jQuery(".lice").text(price_lice);
+        jQuery(".v-price").text(price_v);
+        
+        jQuery(".vehicle-price-input input").val(price_v);
+        jQuery(".vehicle-name-input input").val("[full_title_session]");
+        jQuery(".hst-input input").val(price_hst);
+        calculation(36,1000,[buy_now_price_session]);
+    }
+});
+        jQuery(".vehicle-price-input input").val(price_v);
+        jQuery(".vehicle-name-input input").val("[full_title_session]");
+        jQuery(".hst-input input").val(price_hst);
+function calculation(months,downpayment,ve_price){
+    var car_price = [buy_now_price_session] - downpayment;
+    // Step 1: Calculate TAF
+    var provincial_sales_tax_rate = 0.1; // Example provincial sales tax rate
+    var TAF = car_price + (car_price * provincial_sales_tax_rate);
+    var tax = ([buy_now_price_session] * provincial_sales_tax_rate);
+    var price_tax = tax.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+    
+    // Step 3: Calculate nper
+    var nper = months * 12;
+    
+    // Step 4: Calculate monthly payment with dynamic interest rate
+    var expected_interest_rate = 0.0999; // Example expected interest rate (9.99%)
+    var rate = expected_interest_rate / 12;
+    
+    var monthlyPayment = TAF * (rate + rate / (Math.pow(1 + rate, nper) - 1));
+    var price_monthlyPayment = monthlyPayment.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+    
+    // Step 5: Calculate total interest due
+    var totalInterestDue = (monthlyPayment * 12) - TAF;
+    
+    var total = ve_price + tax + hst + omvic + lice;
+    var price_total = total.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+    
+    jQuery(".tax").text(price_tax);
+    jQuery(".bimonthly").text(price_monthlyPayment);
+    jQuery(".summary-total-price").text(price_total);
+    
+    jQuery(".bimonthly-input input").val(price_monthlyPayment);
+    jQuery(".taxes-input input").val(price_tax);
+    jQuery(".total-input input").val(price_total);
+    
+    // Output the results
+    console.log("TAF: $" + TAF.toFixed(2));
+    console.log("Monthly Payment: $" + monthlyPayment.toFixed(2));
+    console.log("Total Interest Due: $" + totalInterestDue);
+    console.log("Interest Rate: $" + rate);
+    console.log("tax:" + tax);
+    }
+    calculation(36,1000,[buy_now_price_session]);
+    
+    jQuery('.down-pay-input input,input[name="input_130"').change(function(){
+        
+        var down_max = parseInt(jQuery(".down-range").attr("max"));
+    var down_input = parseInt(jQuery(".down-pay-input input").val());
+    if(down_input >= 1000){
+    jQuery(".down-range").val(down_input).change();
+    }
+    else
+    {
+        jQuery(".down-pay-input input").val("1000").change();
+        jQuery(".down-range").val("1000").change();
+    }
+    if(down_input>down_max)
+    {
+        jQuery(".down-pay-input input").val(down_max).change();
+        jQuery(".down-range").val(down_max).change();
+    }
+    var downpayment = jQuery(".down-range").val();
+    var months = jQuery('input[name="input_130"]:checked').val();
+    downpayment = parseInt(downpayment.replace(',', ''), 10);
+    months = parseInt(months);
+    calculation(months,downpayment,[buy_now_price_session]);
+    });
+    
+    
+});
+
+
+/*
+[full_title_session]
+[buy_now_price_session]
+[msrp_price_session]
+[instant_savings_session]
+[image_session]
+*/
+</script>

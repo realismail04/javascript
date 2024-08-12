@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabs Page</title>
+    <style>
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <button onclick="showTab('tab1')">Tab 1</button>
+        <button onclick="showTab('tab2')">Tab 2</button>
+        <button onclick="showTab('tab3')">Tab 3</button>
+    </div>
+    <div id="tab1" class="tab-content">
+        <h2>Content for Tab 1</h2>
+    </div>
+    <div id="tab2" class="tab-content">
+        <h2>Content for Tab 2</h2>
+    </div>
+    <div id="tab3" class="tab-content">
+        <h2>Content for Tab 3</h2>
+    </div>
+
+    <script>
+        function showTab(tabId) {
+            var contents = document.querySelectorAll('.tab-content');
+            contents.forEach(function(content) {
+                content.classList.remove('active');
+            });
+            document.getElementById(tabId).classList.add('active');
+        }
+
+        function getParameterByName(name, url = window.location.href) {
+            name = name.replace(/[\[\]]/g, '\\$&');
+            var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, ' '));
+        }
+
+        window.onload = function() {
+            var tab = getParameterByName('tab') || 'tab1';
+            showTab(tab);
+        }
+    </script>
+</body>
+</html>
